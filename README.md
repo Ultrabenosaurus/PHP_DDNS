@@ -5,17 +5,17 @@ __PHP_DDNS__ is designed to add, update and remove device IP addresses from a da
 
 In short: the goal is to make a simple, self-hosted and personal Dynamic DNS tool for just about anyone with a hosting package (PHP and MySQL a must) and domain.
 
-Made in response to discovering [Remonit](https://github.com/zefei/remonit), to hopefully make it easier for use on my PC/laptop. Other ideas I've had since starting are a push-notifications service and an IP-restrictive authorisation tool.
+Made in response to discovering [Remonit](https://github.com/zefei/remonit), to hopefully make it easier for use on my PC/laptop. Other ideas I've had since starting are a push-notifications service and an IP-restrictive authorisation tool - but if I have a go at making these myself, __PHP_DDNS__ will be the core and they will be made as separate projects, possibly even plugins.
 
 ## NOT YET USABLE ##
 
-PHP_DDNS has not yet reached v1.0, which means not all core functionality is implemented.
+__PHP_DDNS__ has not yet reached v1.0, which means not all core functionality is implemented.
 
 Keep an eye on section *2. Initial Release* of the [to-do list](#to-do) below.
 
 ## How It Works ##
 
-Once everything is installed the pinger script on your devices will periodically call a hook on your domain, updating their entry in the database.
+Once everything is installed the `pinger` script on your devices will periodically call a `hook` on your domain, updating their entry in the database.
 
 You can add and remove devices programmatically or via the admin portal, once developed, giving you plenty of control over the devices being tracked. Devices update themselves, but can only be added or removed from the portal/programmatically.
 
@@ -36,13 +36,13 @@ TBD
 ### Devices ###
 
 1. Put the contents of the `devices` directory somewhere on your device.
-  * __Note:__ make sure your put it somewhere it can write files!
+  * __Note:__ make sure you put it somewhere it can write files!
 2. Edit `config.php` to point to `hook.php` on your hosting.
 3. Run `pinger.php "setup"` on the device you want to add.
-4. Enter pinger's output into the Add Device page of the portal.
+4. Enter `pinger`'s output into the Add Device page of the portal.
 5. Setup a recurring task on your device to run `pinger.php` automatically
   * I recommend pinging at least once per day.
-6. Repeat steps 4 through 6 for all the devices you want to track.
+6. Repeat steps 3 through 5 for all the devices you want to track.
 7. That's it! Your devices should now be tracked by __PHP_DDNS__
 
 ## To Do ##
@@ -58,16 +58,16 @@ The section numbers in this list should roughly equate to major version releases
   * Refactor code to move from "machines" to "devices" terminology.
   * Implement adding devices.
   * Implement removing devices.
-  * Write the hook.
-  * Write the pinger.
+  * Write the `hook`.
+  * Write the `pinger`.
 2. Future Features
   * Flesh out Requirements, tweak Installation.
   * Build the admin portal.
-  * See if I can do an empty CREATE TABLE followed by an ALTER TABLE
+  * See if I can do an empty `CREATE TABLE` followed by an `ALTER TABLE`
     * Hopefully this way will be more upgrade-friendly
   * Implement specifying of ports for devices.
   * More detailed usage instructions.
-  * Translate hook into languages besides PHP.
+  * Translate `hook` into languages besides PHP.
 
 ## Credits ##
 
