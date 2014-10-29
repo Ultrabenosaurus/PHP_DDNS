@@ -23,7 +23,7 @@ Using the public methods of __PHP_DDNS__ you can easily retrieve the details of 
 
 ## Installation ##
 
-## Requirements ##
+### Requirements ###
 
 TBD
 
