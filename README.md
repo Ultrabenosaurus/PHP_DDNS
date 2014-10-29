@@ -3,9 +3,9 @@ PHP_DDNS
 
 __PHP_DDNS__ is designed to add, update and remove device IP addresses from a database, allowing you to keep track of your devices for providing a way to access them remotely - all from your existing hosting + domain combo.
 
-In short: the goal is to make a simple, self-hosted and personal Dynamic DNS tool for just about anyone.
+In short: the goal is to make a simple, self-hosted and personal Dynamic DNS tool for just about anyone with a hosting package (PHP and MySQL a must) and domain.
 
-Made in response to discovering [Remonit](https://github.com/zefei/remonit), to hopefully make it easier for use on my PC/laptop.
+Made in response to discovering [Remonit](https://github.com/zefei/remonit), to hopefully make it easier for use on my PC/laptop. Other ideas I've had since starting are a push-notifications service and an IP-restrictive authorisation tool.
 
 ## NOT YET USABLE ##
 
@@ -63,6 +63,8 @@ The section numbers in this list should roughly equate to major version releases
 2. Future Features
   * Flesh out Requirements, tweak Installation.
   * Build the admin portal.
+  * See if I can do an empty CREATE TABLE followed by an ALTER TABLE
+    * Hopefully this way will be more upgrade-friendly
   * Implement specifying of ports for devices.
   * More detailed usage instructions.
   * Translate hook into languages besides PHP.
