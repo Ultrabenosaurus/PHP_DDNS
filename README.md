@@ -55,7 +55,8 @@ The section numbers in this list should roughly equate to major version releases
   * ~~Flesh out predictable core support functions~~
   * ~~Attempt one of add/update/remove to develop system logic~~
 2. Initial Release
-  * Refactor code to move from "machines" to "devices" terminology.
+  * ~~Refactor code to move from "machines" to "devices" terminology.~~
+  * ~~Update to use namespacing.~~
   * Implement adding devices.
   * Implement removing devices.
   * Write the `hook`.
@@ -70,7 +71,6 @@ The section numbers in this list should roughly equate to major version releases
   * More detailed usage instructions.
 4. Future Features
   * Translate `pinger` into languages besides PHP.
-  * Update to use namespacing.
 
 ## Credits ##
 

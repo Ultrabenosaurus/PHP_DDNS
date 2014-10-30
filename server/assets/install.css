@@ -1,0 +1,28 @@
+
+body {
+    font-family: 'Roboto', Calibri, Helvetica, sans-serif;
+    background-color: dimgray;
+    color: #222;
+}
+
+#container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: beige;
+    position: relative;
+    top: 20px;
+    padding: 10px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+h1, h2, h3 {
+    font-family: 'Patua One', serif;
+    padding: 5px 0;
+}
+
+h1 { font-size: x-large; }
+h2 { font-size: larger; }
+h3 { font-size: large; }
