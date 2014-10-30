@@ -1,5 +1,7 @@
 <?php
 
+namespace PHP_DDNS\Core;
+
 /**
  * Database Helper for PHP_DDNS.
  *
@@ -83,17 +85,17 @@ class PHP_DDNS_DB
         $_dsn = "mysql:host=" . $this->HOST . ";connect_timeout=15";
         try
         {
-            $this->DBH = new PDO( $_dsn, $this->USER, $this->PASS );
+            $this->DBH = new \PDO( $_dsn, $this->USER, $this->PASS );
         }
         catch( PDOException $e )
         {
             return $e->getMessage();
         }
-        $this->DBH->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+        $this->DBH->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
 
         $this->STMT = $this->DBH->prepare( "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" . $this->NAME . "'" );
         $this->STMT->execute();
-        if( count( $this->STMT->fetchAll( PDO::FETCH_ASSOC ) ) > 0 )
+        if( count( $this->STMT->fetchAll( \PDO::FETCH_ASSOC ) ) > 0 )
         {
             $_dsn = $this->STMT = $this->DBH = null;
 
@@ -144,13 +146,13 @@ class PHP_DDNS_DB
         $dsn = "mysql:host=" . $this->HOST . ";dbname=" . $this->NAME . ";connect_timeout=15";
         try
         {
-            $this->DBH = new PDO( $dsn, $this->USER, $this->PASS );
+            $this->DBH = new \PDO( $dsn, $this->USER, $this->PASS );
         }
         catch( PDOException $e )
         {
             return $e->getMessage();
         }
-        $this->DBH->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+        $this->DBH->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
 
         return true;
     }
@@ -184,7 +186,7 @@ class PHP_DDNS_DB
      */
     public function getSingle()
     {
-        return $this->STMT->fetch( PDO::FETCH_ASSOC );
+        return $this->STMT->fetch( \PDO::FETCH_ASSOC );
     }
 
     /**
@@ -194,7 +196,7 @@ class PHP_DDNS_DB
      */
     public function getAll()
     {
-        return $this->STMT->fetchAll( PDO::FETCH_ASSOC );
+        return $this->STMT->fetchAll( \PDO::FETCH_ASSOC );
     }
 
     /**
@@ -239,5 +241,3 @@ class PHP_DDNS_DB
         $this->DBH = null;
     }
 }
-
-?>

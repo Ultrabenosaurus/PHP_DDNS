@@ -4,13 +4,9 @@ define( "PHP_DDNS_ROOT", dirname( __FILE__ ) . "/" );
 
 $_config = array();
 $_config['database'] = array(
-	'name' => "thing",
-	'user' => "thing",
-	'pass' => "thing"
+	'user' => "homestead",
+	'pass' => "secret"
 );
 
-require_once PHP_DDNS_ROOT . "includes/crypt/crypt.php";
-require_once PHP_DDNS_ROOT . "classes/php-ddns-db.php";
-require_once PHP_DDNS_ROOT . "classes/php-ddns.php";
-
-?>
+require_once PHP_DDNS_ROOT . "Core/PHP_DDNS_Helper.php";
+\PHP_DDNS\Core\PHP_DDNS_Helper::registerLoader();

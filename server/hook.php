@@ -2,7 +2,5 @@
 
 require_once "config.php";
 
-$DDNS = new PHP_DDNS( $_config );
-$DDNS->updateMachine();
-
-?>
+$PD = new \PHP_DDNS\Core\PHP_DDNS( $_config );
+$PD->updateDevice();

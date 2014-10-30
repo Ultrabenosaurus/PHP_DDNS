@@ -1,5 +1,7 @@
 <?php
 
+namespace PHP_DDNS\Core;
+
 /**
  * This class provides the core functionality needed to add, update and remove devices from the database, allowing you
  * to keep track of your devices for providing a way to access them remotely.
@@ -28,13 +30,13 @@ class PHP_DDNS
      */
     private $RAW;
     /**
-     * @var \PHP_DDNS_DB Database helper object.
+     * @var \PHP_DDNS\Core\PHP_DDNS_DB Database helper object.
      */
     private $DB;
     /**
      * @var bool|array Array representing the device's database entry, or false if it doesn't have one.
      */
-    private $MACHINE;
+    private $DEVICE;
     /**
      * @var bool Whether or not the request passed authentication checks.
      */
@@ -52,12 +54,12 @@ class PHP_DDNS
     public function __construct( $_config = array() )
     {
         $this->DEFAULTS = $this->getDefaults();
-        $this->CONFIG = $this->extend( $_config );
+        $this->CONFIG = \PHP_DDNS\Core\PHP_DDNS_Helper::extend( $this->DEFAULTS, $_config );
 
-        $this->DB = new PHP_DDNS_DB( $this->CONFIG[ 'database' ] );
+        $this->DB = new \PHP_DDNS\Core\PHP_DDNS_DB( $this->CONFIG[ 'database' ] );
 
         $this->RAW = $_POST;
-        $this->MACHINE = ( ( isset( $_POST[ 'PHP_DDNS_MACHINE' ] ) ) ? $this->findMachine( 'name', $_POST[ 'PHP_DDNS_MACHINE' ] ) : false );
+        $this->DEVICE = ( ( isset( $_POST[ 'PHP_DDNS_MACHINE' ] ) ) ? $this->findDevice( 'name', $_POST[ 'PHP_DDNS_MACHINE' ] ) : false );
         $this->AUTH = ( ( isset( $_POST[ 'PHP_DDNS_AUTH' ] ) ) ? $this->checkAuth( $_POST[ 'PHP_DDNS_AUTH' ] ) : false );
         $this->PAYLOAD = ( ( isset( $_POST[ 'PHP_DDNS_PAYLOAD' ] ) ) ? $this->decryptPayload( $_POST[ 'PHP_DDNS_PAYLOAD' ] ) : false );
     }
@@ -65,9 +67,9 @@ class PHP_DDNS
     /**
      * Add a device to be tracked.
      *
-     * @todo: implement this
+     * @todo        Implement this
      */
-    public function addMachine()
+    public function addDevice()
     {
         //
     }
@@ -78,23 +80,23 @@ class PHP_DDNS
      *
      * @return void
      */
-    public function updateMachine()
+    public function updateDevice()
     {
-        if( $this->MACHINE )
+        if( $this->DEVICE )
         {
             if( $this->AUTH )
             {
-                if( $this->MACHINE[ 'ip_address' ] != $_SERVER[ "REMOTE_ADDR" ] )
-                    $this->DB->query( "UPDATE `" . $this->CONFIG[ 'database' ][ 'table' ] . "` SET `ip_address`=? WHERE `id`=?", array( $_SERVER[ "REMOTE_ADDR" ], $this->MACHINE[ 'id' ] ) );
+                if( $this->DEVICE[ 'ip_address' ] != $_SERVER[ "REMOTE_ADDR" ] )
+                    $this->DB->query( "UPDATE `" . $this->CONFIG[ 'database' ][ 'table' ] . "` SET `ip_address`=? WHERE `id`=?", array( $_SERVER[ "REMOTE_ADDR" ], $this->DEVICE[ 'id' ] ) );
 
-                $new_key = $this->generateRandomString( 10 );
-                while( $new_key == $this->MACHINE[ 'key' ] )
+                $new_key = \PHP_DDNS\Core\PHP_DDNS_Helper::generateRandomString( 10 );
+                while( $new_key == $this->DEVICE[ 'key' ] )
                 {
-                    $new_key = $this->generateRandomString( 10 );
+                    $new_key = \PHP_DDNS\Core\PHP_DDNS_Helper::generateRandomString( 10 );
                 }
-                $this->DB->query( "UPDATE `" . $this->CONFIG[ 'database' ][ 'table' ] . "` SET `key`=?, `last_update`=CURRENT_TIMESTAMP `id`=?", array( $new_key, $this->MACHINE[ 'id' ] ) );
+                $this->DB->query( "UPDATE `" . $this->CONFIG[ 'database' ][ 'table' ] . "` SET `key`=?, `last_update`=CURRENT_TIMESTAMP `id`=?", array( $new_key, $this->DEVICE[ 'id' ] ) );
 
-                $this->MACHINE = $this->findMachine( 'id', $this->MACHINE[ 'id' ] );
+                $this->DEVICE = $this->findDevice( 'id', $this->DEVICE[ 'id' ] );
             }
         }
     }
@@ -104,9 +106,9 @@ class PHP_DDNS
      *
      * @return bool|array An associative array representing the device's database entry, or false if it doesn't have one.
      */
-    public function getMachine()
+    public function getDevice()
     {
-        return $this->MACHINE;
+        return $this->DEVICE;
     }
 
     /**
@@ -117,16 +119,16 @@ class PHP_DDNS
      *
      * @return bool|array An associative array representing the device's database entry, or false if it doesn't have one.
      */
-    private function findMachine( $_by, $_machine )
+    private function findDevice( $_by, $_machine )
     {
         switch( $_by )
         {
             case 'id':
-                return $this->findMachineById( $_machine );
+                return $this->findDeviceById( $_machine );
                 break;
             case 'name':
             default:
-                return $this->findMachineByName( $_machine );
+                return $this->findDeviceByName( $_machine );
                 break;
         }
     }
@@ -134,27 +136,25 @@ class PHP_DDNS
     /**
      * Compare the provided auth token to see if the request is valid.
      *
-     * @param array  $_machine An associative array representing the device's database entry.
      * @param string $_auth    The auth token provided in the request.
      *
      * @return bool Whether or not the auth is valid.
      */
-    private function checkAuth( $_machine, $_auth )
+    private function checkAuth( $_auth )
     {
-        return ( $_machine[ 'uuid' ] == decrypt( $_auth, $_machine[ 'key' ] ) );
+        return ( $this->DEVICE[ 'uuid' ] == decrypt( $_auth, $this->DEVICE[ 'key' ] ) );
     }
 
     /**
      * Decrypt the payload, if there was one. This is not currently used for anything but is here for future development.
      *
-     * @param array  $_machine An associative array representing the device's database entry.
      * @param string $_payload The payload provided in the request.
      *
      * @return mixed The decrypted form of the provided payload.
      */
-    private function decryptPayload( $_machine, $_payload )
+    private function decryptPayload( $_payload )
     {
-        return decrypt( $_payload, $_machine[ 'key' ] );
+        return decrypt( $_payload, $this->DEVICE[ 'key' ] );
     }
 
     /**
@@ -164,7 +164,7 @@ class PHP_DDNS
      *
      * @return bool|array An associative array representing the device's database entry, or false if it doesn't have one.
      */
-    private function findMachineByName( $_name )
+    private function findDeviceByName( $_name )
     {
         $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `name`=?;", array( $_name ) );
         $result = $this->DB->getSingle();
@@ -179,32 +179,12 @@ class PHP_DDNS
      *
      * @return bool|array An associative array representing the device's database entry, or false if it doesn't have one.
      */
-    private function findMachineById( $_id )
+    private function findDeviceById( $_id )
     {
         $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `id`=?;", array( $_id ) );
         $result = $this->DB->getSingle();
 
         return ( ( count( $result ) > 0 ) ? $result : false );
-    }
-
-    /**
-     * Generate a random string for use as an encryption key.
-     *
-     * @param int    $length  How long the string should be.
-     * @param string $charset The character set to use for the string.
-     *
-     * @return string The generated string.
-     */
-    private function generateRandomString( $length, $charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!£$%^&*(){}[]-_@~#<>?/|=+' )
-    {
-        $str = '';
-        $count = strlen( $charset );
-        while( $length-- )
-        {
-            $str .= $charset[ mt_rand( 0, $count - 1 ) ];
-        }
-
-        return $str;
     }
 
     /**
@@ -225,30 +205,4 @@ class PHP_DDNS
             )
         );
     }
-
-    /**
-     * Merge the arrays, like jQuery's $.extend() function.
-     *
-     * @param array $_input The multidimensional array of user-specified configuration to merge with the defaults.
-     *
-     * @return array The resulting merged array.
-     */
-    private function extend( $_input )
-    {
-        $extended = $this->DEFAULTS;
-        if( is_array( $_input ) && count( $_input ) )
-        {
-            foreach( $_input as $key => $array )
-            {
-                if( is_array( $array ) )
-                {
-                    $extended[ $key ] = array_merge( $extended[ $key ], $array );
-                }
-            }
-        }
-
-        return $extended;
-    }
 }
-
-?>
