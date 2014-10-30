@@ -49,25 +49,28 @@ TBD
 
 The section numbers in this list should roughly equate to major version releases, once all sub-tasks are crossed out. The tasks are (hopefully) in order of importance, and (almost definitely) in order of when I'll do them.
 
-0. ~~Background Stuff~~
+1. ~~Background Stuff~~
   * ~~Database Helper~~
   * ~~__PHP_DDNS__ class outline~~
   * ~~Flesh out predictable core support functions~~
   * ~~Attempt one of add/update/remove to develop system logic~~
-1. Initial Release
+2. Initial Release
   * Refactor code to move from "machines" to "devices" terminology.
   * Implement adding devices.
   * Implement removing devices.
   * Write the `hook`.
   * Write the `pinger`.
-2. Future Features
+3. Second Release
+  * Refactor with emphasis on plugins/extensibility
   * Flesh out Requirements, tweak Installation.
   * Build the admin portal.
   * See if I can do an empty `CREATE TABLE` followed by an `ALTER TABLE`
     * Hopefully this way will be more upgrade-friendly
   * Implement specifying of ports for devices.
   * More detailed usage instructions.
-  * Translate `hook` into languages besides PHP.
+4. Future Features
+  * Translate `pinger` into languages besides PHP.
+  * Update to use namespacing.
 
 ## Credits ##
 
