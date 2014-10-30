@@ -1,0 +1,29 @@
+alias ..="cd .."
+alias ...="cd ../.."
+
+alias c='clear'
+alias fs="du -hs"
+alias h='cd ~'
+alias l="ls -lA --si --color=auto"
+
+
+function serve() {
+    if [[ "$1" && "$2" ]]
+    then
+        sudo dos2unix /vagrant/.vg-scripts/serve.sh
+        sudo bash /vagrant/.vg-scripts/serve.sh "$1" "$2"
+    else
+        echo "Error: missing required parameters."
+        echo "Usage: "
+        echo "  serve domain path"
+    fi
+}
+
+color_my_prompt() {
+    local __user_and_host="\[\033[32m\]\u@\h"
+    local __cur_location="\[\033[31m\]\w"
+    local __prompt_tail="\[\033[01;32m\]o_O?"
+    local NC="\e[m"
+    export PS1="\n$__user_and_host: $__cur_location\n$__prompt_tail$NC "
+}
+color_my_prompt
