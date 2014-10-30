@@ -142,7 +142,7 @@ class PHP_DDNS
      */
     private function checkAuth( $_auth )
     {
-        return ( $this->DEVICE[ 'uuid' ] == decrypt( $_auth, $this->DEVICE[ 'key' ] ) );
+        return ( $this->DEVICE[ 'uuid' ] == \PHP_DDNS\Core\PHP_DDNS_Helper::decrypt( $_auth, $this->DEVICE[ 'key' ] ) );
     }
 
     /**
@@ -154,7 +154,7 @@ class PHP_DDNS
      */
     private function decryptPayload( $_payload )
     {
-        return decrypt( $_payload, $this->DEVICE[ 'key' ] );
+        return \PHP_DDNS\Core\PHP_DDNS_Helper::decrypt( $_payload, $this->DEVICE[ 'key' ] );
     }
 
     /**
@@ -201,7 +201,7 @@ class PHP_DDNS
                 'user'  => "root",
                 'pass'  => "",
                 'table' => "ddns_machines",
-                'schema' => PHP_DDNS_ROOT . "includes/schema.sql"
+                'schema' => PHP_DDNS_ROOT . "assets/other/schema.sql"
             )
         );
     }

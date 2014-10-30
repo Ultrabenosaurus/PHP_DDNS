@@ -1,4 +1,5 @@
 
+/* GENERAL */
 body {
     font-family: 'Roboto', Calibri, Helvetica, sans-serif;
     background-color: dimgray;
@@ -18,11 +19,27 @@ body {
     border-radius: 5px;
 }
 
+/* HEADINGS */
 h1, h2, h3 {
     font-family: 'Patua One', serif;
-    padding: 5px 0;
+    padding: 5px 3px 0 3px;
+    color: black;
+    margin-bottom: 10px;
 }
 
-h1 { font-size: x-large; }
-h2 { font-size: larger; }
+h1 {
+    font-size: x-large;
+    display: inline-block;
+    border-bottom: black 3px solid;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: larger;
+    font-style: italic;
+}
+
 h3 { font-size: large; }

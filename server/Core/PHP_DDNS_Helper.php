@@ -77,4 +77,79 @@ class PHP_DDNS_Helper
 
         return $str;
     }
+
+    /**
+     * Encrypt a string by a given key. Taken from https://github.com/Hunter-Dolan/Crypt
+     *
+     * @param string $sData Data to encrypt.
+     * @param string $sKey  Key to use for the encryption.
+     *
+     * @return string Base64-encoded string of the encrypted string.
+     */
+    public static function encrypt( $sData, $sKey )
+    {
+        $sResult = '';
+        for( $i = 0; $i < strlen( $sData ); $i++ )
+        {
+            $sChar = substr( $sData, $i, 1 );
+            $sKeyChar = substr( $sKey, ( $i % strlen( $sKey ) ) - 1, 1 );
+            $sChar = chr( ord( $sChar ) + ord( $sKeyChar ) );
+            $sResult .= $sChar;
+        }
+
+        return \PHP_DDNS\Core\PHP_DDNS_Helper::encode_base64( $sResult );
+    }
+
+    /**
+     * Decrypt a string by a given key. Taken from https://github.com/Hunter-Dolan/Crypt
+     *
+     * @param string $sData The Base64-encoded string to decrypt.
+     * @param string $sKey  The key used for encrypting the string.
+     *
+     * @return string The decrypted string.
+     */
+    public static function decrypt( $sData, $sKey )
+    {
+        $sResult = '';
+        $sData = \PHP_DDNS\Core\PHP_DDNS_Helper::decode_base64( $sData );
+        for( $i = 0; $i < strlen( $sData ); $i++ )
+        {
+            $sChar = substr( $sData, $i, 1 );
+            $sKeyChar = substr( $sKey, ( $i % strlen( $sKey ) ) - 1, 1 );
+            $sChar = chr( ord( $sChar ) - ord( $sKeyChar ) );
+            $sResult .= $sChar;
+        }
+
+        return $sResult;
+    }
+
+
+    /**
+     * Base64-encode a string. Taken from https://github.com/Hunter-Dolan/Crypt
+     *
+     * @param string $sData The string to encode.
+     *
+     * @return string The encoded string.
+     */
+    public static function encode_base64( $sData )
+    {
+        $sBase64 = base64_encode( $sData );
+
+        return strtr( $sBase64, '+/', '-_' );
+    }
+
+
+    /**
+     * Decode a Base64-encoded string by a given key. Taken from https://github.com/Hunter-Dolan/Crypt
+     *
+     * @param string $sData The Base64-encoded string to decode.
+     *
+     * @return string The decoded string.
+     */
+    public static function decode_base64( $sData )
+    {
+        $sBase64 = strtr( $sData, '-_', '+/' );
+
+        return base64_decode( $sBase64 );
+    }
 }
