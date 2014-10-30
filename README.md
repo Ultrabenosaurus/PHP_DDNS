@@ -61,15 +61,18 @@ The section numbers in this list should roughly equate to major version releases
   * Implement removing devices.
   * Write the `hook`.
   * Write the `pinger`.
+  * Write the server-side installer.
 3. Second Release
   * Refactor with emphasis on plugins/extensibility
   * Flesh out Requirements, tweak Installation.
+  * Switch to Bootstrap + Material Design for HTML output.
   * Build the admin portal.
   * See if I can do an empty `CREATE TABLE` followed by an `ALTER TABLE`
     * Hopefully this way will be more upgrade-friendly
   * Implement specifying of ports for devices.
-  * More detailed usage instructions.
+  * More detailed Usage instructions.
 4. Future Features
+  * Write a wiki
   * Translate `pinger` into languages besides PHP.
 
 ## Credits ##

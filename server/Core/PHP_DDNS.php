@@ -67,11 +67,46 @@ class PHP_DDNS
     /**
      * Add a device to be tracked.
      *
-     * @todo        Implement this
+     * @param array $_device An associative array comprising the details of the device to be added.
+     *
+     * @return mixed Something representing success/failure.
      */
-    public function addDevice()
+    public function addDevice( $_device )
     {
-        //
+        $key = \PHP_DDNS\Core\PHP_DDNS_Helper::arrayKeysExist( array( 'uuid', 'name', 'ip' ), $_device );
+        if( true === $key )
+        {
+            //
+        }
+        else
+        {
+            if( is_string( $key ) )
+                return array( 'error', "The key `" . $key . "` was not found." );
+            else
+                return array( 'error', "The Device details provided was not an array of 'uuid', 'name' and 'ip'." );
+        }
+    }
+
+    /**
+     * Remove device from tracking.
+     *
+     * @param int $_id The ID of the device to remove.
+     *
+     * @return array Result of deletion attempt.
+     */
+    public function removeDevice( $_id )
+    {
+        if( $this->findDevice( 'id', $_id ) )
+        {
+            if( $this->DB->query( "DELETE FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `id`=?;", array( $_id ) ) )
+                return array( 'success', "The Device has been deleted." );
+            else
+                return array( 'error', "The Device could not be removed." );
+        }
+        else
+        {
+            return array( 'error', "The Device you are trying to remove does not exist." );
+        }
     }
 
     /**
@@ -115,20 +150,20 @@ class PHP_DDNS
      * Lookup a device by ID or name.
      *
      * @param string $_by      Whether to lookup the device by ID or name.
-     * @param string $_machine The value to lookup.
+     * @param string $_device The value to lookup.
      *
      * @return bool|array An associative array representing the device's database entry, or false if it doesn't have one.
      */
-    private function findDevice( $_by, $_machine )
+    private function findDevice( $_by, $_device )
     {
         switch( $_by )
         {
             case 'id':
-                return $this->findDeviceById( $_machine );
+                return $this->findDeviceById( $_device );
                 break;
             case 'name':
             default:
-                return $this->findDeviceByName( $_machine );
+                return $this->findDeviceByName( $_device );
                 break;
         }
     }

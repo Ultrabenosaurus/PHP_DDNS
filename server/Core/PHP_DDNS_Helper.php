@@ -97,7 +97,7 @@ class PHP_DDNS_Helper
             $sResult .= $sChar;
         }
 
-        return \PHP_DDNS\Core\PHP_DDNS_Helper::encode_base64( $sResult );
+        return \PHP_DDNS\Core\PHP_DDNS_Helper::encodeBase64( $sResult );
     }
 
     /**
@@ -111,7 +111,7 @@ class PHP_DDNS_Helper
     public static function decrypt( $sData, $sKey )
     {
         $sResult = '';
-        $sData = \PHP_DDNS\Core\PHP_DDNS_Helper::decode_base64( $sData );
+        $sData = \PHP_DDNS\Core\PHP_DDNS_Helper::decodeBase64( $sData );
         for( $i = 0; $i < strlen( $sData ); $i++ )
         {
             $sChar = substr( $sData, $i, 1 );
@@ -131,7 +131,7 @@ class PHP_DDNS_Helper
      *
      * @return string The encoded string.
      */
-    public static function encode_base64( $sData )
+    public static function encodeBase64( $sData )
     {
         $sBase64 = base64_encode( $sData );
 
@@ -146,10 +146,34 @@ class PHP_DDNS_Helper
      *
      * @return string The decoded string.
      */
-    public static function decode_base64( $sData )
+    public static function decodeBase64( $sData )
     {
         $sBase64 = strtr( $sData, '-_', '+/' );
 
         return base64_decode( $sBase64 );
+    }
+
+    /**
+     * Check for the existence of multiple keys in an array in one go.
+     *
+     * @param array $_keys  The keys to look for.
+     * @param array $_array The array that should contain the keys.
+     *
+     * @return mixed True if all keys exist, false if one or both parameters weren't arrays, the name of the first key found to not exist.
+     */
+    public static function arrayKeysExist( $_keys, $_array )
+    {
+        if( is_array( $_keys ) && is_array( $_array ) )
+        {
+            foreach( $_keys as $key )
+            {
+                if( !array_key_exists( $key, $_array ) )
+                    return $key;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }
