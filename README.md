@@ -71,10 +71,11 @@ The section numbers in this list should roughly equate to major version releases
   * ~~Update to use namespacing.~~
   * Implement adding devices.
   * Implement removing devices.
-  * Write the `hook`.
-  * Write the `pinger`.
+  * ~~Write the `hook`.~~
+  * ~~Write the `pinger`.~~
   * Write the server-side installer.
 3. Second Release
+  * Tidy `hook` and `pinger`.
   * Refactor with emphasis on plugins/extensibility
   * Flesh out Requirements, tweak Installation.
   * Switch to Bootstrap + Material Design for HTML output.
