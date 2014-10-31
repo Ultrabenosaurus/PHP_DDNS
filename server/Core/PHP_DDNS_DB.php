@@ -3,7 +3,7 @@
 namespace PHP_DDNS\Core;
 
 /**
- * Database Helper for PHP_DDNS.
+ * PHP_DDNS_DB is the database manager for PHP_DDNS.
  *
  * @author      Dan Bennett <http://ultrabenosaurus.ninja>
  * @package     PHP_DDNS\Core

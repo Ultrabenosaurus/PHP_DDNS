@@ -3,7 +3,7 @@
 namespace PHP_DDNS\Core;
 
 /**
- * This class provides the core functionality needed to add, update and remove devices from the database, allowing you
+ * PHP_DDNS provides the core functionality needed to add, update and remove devices from the database, allowing you
  * to keep track of your devices for providing a way to access them remotely.
  *
  * @author      Dan Bennett <http://ultrabenosaurus.ninja>

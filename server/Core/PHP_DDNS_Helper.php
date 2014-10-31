@@ -3,7 +3,7 @@
 namespace PHP_DDNS\Core;
 
 /**
- * This class provides support functionality for the core system of PHP_DDNS.
+ * PHP_DDNS_Helper provides support functionality for the core system of PHP_DDNS.
  *
  * @author      Dan Bennett <http://ultrabenosaurus.ninja>
  * @package     PHP_DDNS\Core
