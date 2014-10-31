@@ -49,6 +49,8 @@ class PHP_DDNS_DB
      * Initialise a PHP_DDNS_DB instance.
      *
      * @param array $_opts User-specified config options.
+     *
+     * @throws \PHP_DDNS\Core\PHP_DDNS_DB_Exception
      */
     public function __construct( $_opts )
     {
@@ -88,7 +90,7 @@ class PHP_DDNS_DB
         {
             $this->DBH = new \PDO( $_dsn, $this->USER, $this->PASS );
         }
-        catch( PDOException $e )
+        catch( \PDOException $e )
         {
             return $e->getMessage();
         }
@@ -98,9 +100,14 @@ class PHP_DDNS_DB
         $this->STMT->execute();
         if( count( $this->STMT->fetchAll( \PDO::FETCH_ASSOC ) ) > 0 )
         {
-            $_dsn = $this->STMT = $this->DBH = null;
+            $this->STMT = $this->DBH->prepare( "SHOW TABLES FROM `" . $this->NAME . "`" );
+            $this->STMT->execute();
+            if( count( $this->STMT->fetchAll( \PDO::FETCH_ASSOC ) ) > 0 )
+            {
+                $_dsn = $this->STMT = $this->DBH = null;
 
-            return true;
+                return true;
+            }
         }
 
         $_file = @fopen( $this->SCHEMA_FILE, 'r' );
@@ -109,7 +116,7 @@ class PHP_DDNS_DB
         if( $_sql )
         {
             $_sql = str_replace( "@name@", $this->NAME, $_sql );
-            $_sql = str_replace( "@table@", $this->NAME, $_sql );
+            $_sql = str_replace( "@table@", $this->TABLE, $_sql );
             try
             {
                 set_time_limit( 120 );
@@ -119,7 +126,7 @@ class PHP_DDNS_DB
 
                 return true;
             }
-            catch( PDOException $e )
+            catch( \PDOException $e )
             {
                 $_arr = array();
                 if( !is_null( $this->DBH ) ) array_push( $_arr, $this->DBH->errorInfo() );
@@ -149,7 +156,7 @@ class PHP_DDNS_DB
         {
             $this->DBH = new \PDO( $dsn, $this->USER, $this->PASS );
         }
-        catch( PDOException $e )
+        catch( \PDOException $e )
         {
             return $e->getMessage();
         }
@@ -162,7 +169,7 @@ class PHP_DDNS_DB
      * Do a query or something. I think.
      *
      * @param string $_qry    The query to do, unnamed placeholders accepted.
-     * @param null   $_params Array of values for any placeholders in the query.
+     * @param array  $_params Array of values for any placeholders in the query.
      *
      * @return mixed Hopefully a PDOStatement object of query results.
      */

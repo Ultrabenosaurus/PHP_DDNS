@@ -1,14 +1,19 @@
-
 /* GENERAL */
 body {
     font-family: 'Roboto', Calibri, Helvetica, sans-serif;
     background-color: dimgray;
-    color: #222;
+    font-size: 14px;
+    color: #222222;
+}
+
+p {
+    margin: 3px;
+    padding-bottom: 10px;
 }
 
 #container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 960px;
     margin: 0 auto;
     background-color: beige;
     position: relative;
@@ -39,7 +44,25 @@ h1 {
 
 h2 {
     font-size: larger;
+}
+
+h3 {
+    font-size: large;
     font-style: italic;
 }
 
-h3 { font-size: large; }
+/* FORM */
+.form-row {
+    display: block;
+    padding-bottom: 10px;
+}
+
+.form-row label {
+    display: inline-block;
+    width: 20%;
+    min-width: 160px;
+}
+
+.form-row input[type*="te"], .form-row input[type*="pa"] {
+    width: 50%;
+}
