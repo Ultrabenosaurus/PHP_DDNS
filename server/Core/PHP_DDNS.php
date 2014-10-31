@@ -55,7 +55,6 @@ class PHP_DDNS
     {
         $this->DEFAULTS = $this->getDefaults();
         $this->CONFIG = \PHP_DDNS\Core\PHP_DDNS_Helper::extend( $this->DEFAULTS, $_config );
-
         $this->DB = new \PHP_DDNS\Core\PHP_DDNS_DB( $this->CONFIG[ 'database' ] );
 
         $this->RAW = $_POST;
@@ -129,7 +128,7 @@ class PHP_DDNS
                 {
                     $new_key = \PHP_DDNS\Core\PHP_DDNS_Helper::generateRandomString( 10 );
                 }
-                $this->DB->query( "UPDATE `" . $this->CONFIG[ 'database' ][ 'table' ] . "` SET `key`=?, `last_update`=CURRENT_TIMESTAMP `id`=?", array( $new_key, $this->DEVICE[ 'id' ] ) );
+                $this->DB->query( "UPDATE `" . $this->CONFIG[ 'database' ][ 'table' ] . "` SET `key`=?, `last_update`=NOW() WHERE `id`=?", array( $new_key, $this->DEVICE[ 'id' ] ) );
 
                 $this->DEVICE = $this->findDevice( 'id', $this->DEVICE[ 'id' ] );
             }
@@ -204,7 +203,7 @@ class PHP_DDNS
      */
     private function findDeviceByUuid( $_uuid )
     {
-        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `uuid`=?;", array( $_uuid ) );
+        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `uuid`=?", array( $_uuid ) );
         $result = $this->DB->getSingle();
 
         return ( ( count( $result ) > 0 ) ? $result : false );
@@ -219,7 +218,7 @@ class PHP_DDNS
      */
     private function findDeviceByName( $_name )
     {
-        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `name`=?;", array( $_name ) );
+        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `name`=?", array( $_name ) );
         $result = $this->DB->getSingle();
 
         return ( ( count( $result ) > 0 ) ? $result : false );
@@ -234,7 +233,7 @@ class PHP_DDNS
      */
     private function findDeviceById( $_id )
     {
-        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `id`=?;", array( $_id ) );
+        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `id`=?", array( $_id ) );
         $result = $this->DB->getSingle();
 
         return ( ( count( $result ) > 0 ) ? $result : false );
@@ -250,10 +249,10 @@ class PHP_DDNS
         return array(
             'database' => array(
                 'host'  => "localhost",
-                'name'  => "ddns_main",
+                'name'  => "php_ddns",
                 'user'  => "root",
                 'pass'  => "",
-                'table' => "ddns_machines",
+                'table' => "pd_devices",
                 'schema' => PHP_DDNS_ROOT . "assets/other/schema.sql"
             )
         );

@@ -2,8 +2,6 @@
 
 require_once "config.php";
 
-//echo "<pre>" . $argc . " ~ " . print_r( $argv, true ) . "</pre>";
-
 if( $argc > 2 )
 {
     try

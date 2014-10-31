@@ -4,6 +4,8 @@ error_reporting(E_ALL);
 ini_set("display_errors", -1);
 require_once "config.php";
 
+$PD = new \PHP_DDNS\Core\PHP_DDNS( $_config );
+
 ?>
 
 

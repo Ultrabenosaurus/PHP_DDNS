@@ -59,9 +59,10 @@ class PHP_DDNS_DB
         $this->TABLE = $_opts[ 'table' ];
         $this->SCHEMA_FILE = $_opts[ 'schema' ];
 
-        if( !$this->create() )
+        $genesis = $this->create();
+        if( true !== $genesis )
         {
-            return "Database does not exist and could not be made!";
+            throw new \PHP_DDNS\Core\PHP_DDNS_DB_Exception( $genesis );
         }
 
         $_conn = $this->open();
@@ -165,11 +166,12 @@ class PHP_DDNS_DB
      *
      * @return mixed Hopefully a PDOStatement object of query results.
      */
-    public function query( $_qry, $_params = null )
+    public function query( $_qry, $_params = array() )
     {
-        $this->STMT = $this->DBH->prepare( "USE `" . $this->NAME . "`; " . $_qry );
+        \PHP_DDNS\Core\PHP_DDNS_Helper::logger( "PHP_DDNS_DB/queries", json_encode( array( 'time' => date( "r" ), 'query' => $_qry, 'params' => $_params ) ) );
 
-        if( is_null( $_params ) )
+        $this->STMT = $this->DBH->prepare( $_qry );
+        if( empty( $_params ) )
         {
             return $this->STMT->execute();
         }
@@ -241,3 +243,5 @@ class PHP_DDNS_DB
         $this->DBH = null;
     }
 }
+
+class PHP_DDNS_DB_Exception extends \Exception {}

@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS `@table@`(
   `name` varchar(20) NOT NULL DEFAULT 'computer',
   `key` VARCHAR(10) NOT NULL,
   `ip_address` VARCHAR(16) NOT NULL,
-  `first_update` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_update` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `first_update` DATETIME NOT NULL,
+  `last_update` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uuid_unique` (`uuid`),
   UNIQUE KEY `name_unique` (`name`)

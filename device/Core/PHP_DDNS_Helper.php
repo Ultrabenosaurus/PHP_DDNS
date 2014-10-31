@@ -66,7 +66,7 @@ class PHP_DDNS_Helper
      *
      * @return string The generated string.
      */
-    public static function generateRandomString( $length, $charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!£$^&*(){}[]-_@~#<>?/|=+' )
+    public static function generateRandomString( $length, $charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!£$^&*(){}[]-@~#<>|=+' )
     {
         $str = '';
         $count = strlen( $charset );
@@ -194,5 +194,46 @@ class PHP_DDNS_Helper
             return true;
         }
         return false;
+    }
+
+    /**
+     * Log stuff.
+     *
+     * @param string $_type    What kind of thing is logging.
+     * @param string $_message The thing to log.
+     */
+    public static function logger( $_type, $_message )
+    {
+        $path = PHP_DDNS_ROOT . "logs/" . date( "Y" ) . "/" . date( "m" ) . "/" . $_type . "/" . date( "d" ) . "/";
+        $file = $path . date( "H" ) . ".txt";
+        \PHP_DDNS\Core\PHP_DDNS_Helper::checkDir( $path );
+        file_put_contents( $file, $_message, FILE_APPEND );
+    }
+
+    /**
+     * Make sure the directory we're logging to exists.
+     *
+     * @param string $_dir The path we want to log to.
+     */
+    public static function checkDir( $_dir )
+    {
+        if( !is_dir( $_dir ) )
+        {
+            $dirs = explode( "/", $_dir );
+            if( "" == trim( $dirs[ 0 ] ) ) array_shift( $dirs );
+            if( "" == trim( $dirs[ ( count( $dirs ) - 1 ) ] ) ) array_pop( $dirs[ ( count( $dirs ) - 1 ) ] );
+            $path = $dirs[ 0 ];
+            $c = count( $dirs );
+            for( $i = 1; $i <= $c; $i++ )
+            {
+                if( !file_exists( $path ) )
+                    mkdir( $path );
+                if( $i < $c )
+                    $path .= "/" . $dirs[ $i ];
+            }
+            unset( $dirs );
+            unset( $path );
+            unset( $c );
+        }
     }
 }

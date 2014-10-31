@@ -61,7 +61,8 @@ class PHP_DDNS_Pinger
 
         curl_setopt( $CH, CURLOPT_POST, count( $post_data ) );
         curl_setopt( $CH, CURLOPT_POSTFIELDS, $post_string );
-        $response = json_decode( \PHP_DDNS\Core\PHP_DDNS_Helper::decrypt( curl_exec( $CH ), $this->CONFIG['key'] ) );
+        $response = curl_exec( $CH );
+        $response = json_decode( \PHP_DDNS\Core\PHP_DDNS_Helper::decrypt( $response, $this->CONFIG['key'] ), true );
 
         if( $this->checkResponseIntegrity( $response ) )
         {
@@ -103,7 +104,7 @@ class PHP_DDNS_Pinger
      */
     private function getConfig()
     {
-        if( file_exists( PHP_DDNS_ROOT . "device" ) )
+        if( file_exists( PHP_DDNS_ROOT . ".device" ) )
             return json_decode( file_get_contents( PHP_DDNS_ROOT . ".device" ), true );
         else
             throw new \PHP_DDNS\Core\PHP_DDNS_Pinger_Exception( "\nDevice details not found! Have you run setup yet?\n\n" );
@@ -127,7 +128,7 @@ class PHP_DDNS_Pinger
         }
         else
         {
-            throw new \PHP_DDNS\Core\PHP_DDNS_Pinger_Exception( "\nDevice details not found! Have you run setup yet?\n\n" );
+            throw new \PHP_DDNS\Core\PHP_DDNS_Pinger_Exception( "\nDevice details not generated!\n\n" );
         }
     }
 
