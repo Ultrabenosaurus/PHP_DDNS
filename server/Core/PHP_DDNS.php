@@ -59,7 +59,7 @@ class PHP_DDNS
         $this->DB = new \PHP_DDNS\Core\PHP_DDNS_DB( $this->CONFIG[ 'database' ] );
 
         $this->RAW = $_POST;
-        $this->DEVICE = ( ( isset( $_POST[ 'PHP_DDNS_MACHINE' ] ) ) ? $this->findDevice( 'name', $_POST[ 'PHP_DDNS_MACHINE' ] ) : false );
+        $this->DEVICE = ( ( isset( $_POST[ 'PHP_DDNS_UUID' ] ) ) ? $this->findDevice( 'uuid', $_POST[ 'PHP_DDNS_UUID' ] ) : false );
         $this->AUTH = ( ( isset( $_POST[ 'PHP_DDNS_AUTH' ] ) ) ? $this->checkAuth( $_POST[ 'PHP_DDNS_AUTH' ] ) : false );
         $this->PAYLOAD = ( ( isset( $_POST[ 'PHP_DDNS_PAYLOAD' ] ) ) ? $this->decryptPayload( $_POST[ 'PHP_DDNS_PAYLOAD' ] ) : false );
     }
@@ -73,7 +73,7 @@ class PHP_DDNS
      */
     public function addDevice( $_device )
     {
-        $key = \PHP_DDNS\Core\PHP_DDNS_Helper::arrayKeysExist( array( 'uuid', 'name', 'ip' ), $_device );
+        $key = \PHP_DDNS\Core\PHP_DDNS_Helper::arrayKeysExist( array( 'uuid', 'name', 'ip', 'key' ), $_device );
         if( true === $key )
         {
             //
@@ -162,8 +162,11 @@ class PHP_DDNS
                 return $this->findDeviceById( $_device );
                 break;
             case 'name':
-            default:
                 return $this->findDeviceByName( $_device );
+                break;
+            case 'uuid':
+            default:
+                return $this->findDeviceByUuid( $_device );
                 break;
         }
     }
@@ -189,7 +192,22 @@ class PHP_DDNS
      */
     private function decryptPayload( $_payload )
     {
-        return \PHP_DDNS\Core\PHP_DDNS_Helper::decrypt( $_payload, $this->DEVICE[ 'key' ] );
+        return json_decode( \PHP_DDNS\Core\PHP_DDNS_Helper::decrypt( $_payload, $this->DEVICE[ 'key' ] ), true );
+    }
+
+    /**
+     * Lookup the device by it's UUID.
+     *
+     * @param string $_uuid The name to look for.
+     *
+     * @return bool|array An associative array representing the device's database entry, or false if it doesn't have one.
+     */
+    private function findDeviceByUuid( $_uuid )
+    {
+        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `uuid`=?;", array( $_uuid ) );
+        $result = $this->DB->getSingle();
+
+        return ( ( count( $result ) > 0 ) ? $result : false );
     }
 
     /**

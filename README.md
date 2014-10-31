@@ -21,11 +21,23 @@ You can add and remove devices programmatically or via the admin portal, once de
 
 Using the public methods of __PHP_DDNS__ you can easily retrieve the details of a tracked device, allowing you to build interfaces/tunnels/whatever for services running on it.
 
+## Requirements ##
+
+Do not consider this list complete, it is an estimate based on current development progress:
+
+1. __Server__
+  * PHP >= 5.3.0
+  * cURL module
+  * PDO + MySQL driver
+  * MySQL (version TBD)
+  * Write access
+  * Domain or fixed IP
+2. __Device__
+  * PHP >= 5.3.0
+  * cURL module
+  * Script located somewhere it can write a file
+
 ## Installation ##
-
-### Requirements ###
-
-TBD
 
 ### Server ###
 
@@ -73,6 +85,7 @@ The section numbers in this list should roughly equate to major version releases
   * More detailed Usage instructions.
 4. Future Features
   * Write a wiki
+  * Allow device name to be changed.
   * Translate `pinger` into languages besides PHP.
 
 ## Credits ##

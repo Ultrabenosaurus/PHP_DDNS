@@ -66,7 +66,7 @@ class PHP_DDNS_Helper
      *
      * @return string The generated string.
      */
-    public static function generateRandomString( $length, $charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!£$%^&*(){}[]-_@~#<>?/|=+' )
+    public static function generateRandomString( $length, $charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!£$^&*(){}[]-_@~#<>?/|=+' )
     {
         $str = '';
         $count = strlen( $charset );
@@ -174,6 +174,25 @@ class PHP_DDNS_Helper
             return true;
         }
 
+        return false;
+    }
+
+    /**
+     * Check if the given string is a valid URL
+     *
+     * This is just a pattern-match to see if it fits the format of a URL, there
+     * is no verification as to whether or not the URL exists.
+     *
+     * @param string $_url The string to test for URL validity
+     *
+     * @return boolean
+     */
+    public static function isURL( $_url )
+    {
+        if( is_string( $_url ) && preg_match( "/^http[s]?:\/\/[a-zA-Z\-]*[\.a-zA-Z\-]+\.[a-zA-Z]{2,3}[\.a-zA-Z]*[\/]?.*$/", $_url ) > 0 )
+        {
+            return true;
+        }
         return false;
     }
 }
