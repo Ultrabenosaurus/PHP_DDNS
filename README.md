@@ -79,7 +79,7 @@ The section numbers in this list should roughly equate to major version releases
   * Tidy `hook` and `pinger`.
   * Refactor with emphasis on plugins/extensibility
   * Flesh out Requirements, tweak Installation.
-  * Switch to Bootstrap + [Material Design](https://github.com/FezVrasta/bootstrap-material-design) for HTML output.
+  * Switch to Bootstrap + [Material](https://github.com/FezVrasta/bootstrap-material-design) [Design](https://github.com/ebidel/material-playground/) for HTML output.
   * Build the admin portal.
   * See if I can do an empty `CREATE TABLE` followed by an `ALTER TABLE`
     * Hopefully this way will be more upgrade-friendly
