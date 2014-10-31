@@ -206,8 +206,8 @@ class PHP_DDNS_Helper
     {
         $path = PHP_DDNS_ROOT . "logs/" . date( "Y" ) . "/" . date( "m" ) . "/" . $_type . "/" . date( "d" ) . "/";
         $file = $path . date( "H" ) . ".txt";
-        \PHP_DDNS\Core\PHP_DDNS_Helper::checkDir( $path );
-        file_put_contents( $file, $_message, FILE_APPEND );
+//        \PHP_DDNS\Core\PHP_DDNS_Helper::checkDir( $path );
+//        file_put_contents( $file, $_message, FILE_APPEND );
     }
 
     /**
@@ -221,7 +221,7 @@ class PHP_DDNS_Helper
         {
             $dirs = explode( "/", $_dir );
             if( "" == trim( $dirs[ 0 ] ) ) array_shift( $dirs );
-            if( "" == trim( $dirs[ ( count( $dirs ) - 1 ) ] ) ) array_pop( $dirs[ ( count( $dirs ) - 1 ) ] );
+            if( "" == trim( $dirs[ ( count( $dirs ) - 1 ) ] ) ) array_pop( $dirs );
             $path = $dirs[ 0 ];
             $c = count( $dirs );
             for( $i = 1; $i <= $c; $i++ )

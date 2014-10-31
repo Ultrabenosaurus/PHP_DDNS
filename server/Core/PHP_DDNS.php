@@ -53,7 +53,7 @@ class PHP_DDNS
      */
     public function __construct( $_config = array() )
     {
-        $this->DEFAULTS = $this->getDefaults();
+        $this->DEFAULTS = \PHP_DDNS\Core\PHP_DDNS::getDefaults();
         $this->CONFIG = \PHP_DDNS\Core\PHP_DDNS_Helper::extend( $this->DEFAULTS, $_config );
         $this->DB = new \PHP_DDNS\Core\PHP_DDNS_DB( $this->CONFIG[ 'database' ] );
 
@@ -68,14 +68,25 @@ class PHP_DDNS
      *
      * @param array $_device An associative array comprising the details of the device to be added.
      *
-     * @return mixed Something representing success/failure.
+     * @return array Something representing success/failure.
      */
     public function addDevice( $_device )
     {
         $key = \PHP_DDNS\Core\PHP_DDNS_Helper::arrayKeysExist( array( 'uuid', 'name', 'ip', 'key' ), $_device );
         if( true === $key )
         {
-            //
+            foreach( $_device as $key => $val )
+            {
+                $_device[":".$key] = $val;
+                unset( $_device[$key] );
+            }
+
+            $now = date( "Y-m-d H:i:s" );
+            $this->DB->query( "INSERT INTO `" . $this->CONFIG[ 'database' ][ 'table' ] . "` (`uuid`, `name`, `key`, `ip_address`, `first_update`, `last_update`) VALUES (:uuid, :name, :key, :ip, '" . $now . "', '" . $now . "' );", $_device );
+            if( $this->DB->lastInsertId() > 0 )
+                return array( 'success', "The device `" . $_device[':name'] . "` was added and should now be tracked.", $this->DB->lastInsertId() );
+            else
+                return array( 'error', "The device could not be added, error details (if any) are in the next index included.", $this->DB->getError() );
         }
         else
         {
@@ -97,10 +108,11 @@ class PHP_DDNS
     {
         if( $this->findDevice( 'id', $_id ) )
         {
-            if( $this->DB->query( "DELETE FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `id`=?;", array( $_id ) ) )
+            $this->DB->query( "DELETE FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `id`=?;", array( $_id ) );
+            if( $this->DB->rowCount() > 0 )
                 return array( 'success', "The Device has been deleted." );
             else
-                return array( 'error', "The Device could not be removed." );
+                return array( 'error', "The Device could not be removed.", $this->DB->getError() );
         }
         else
         {
@@ -244,7 +256,7 @@ class PHP_DDNS
      *
      * @return array The default configuration.
      */
-    private function getDefaults()
+    public static function getDefaults()
     {
         return array(
             'database' => array(

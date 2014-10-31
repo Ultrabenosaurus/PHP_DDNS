@@ -78,10 +78,18 @@ class PHP_DDNS_Pinger
     public function details()
     {
         $out = "\nUse the following values to add this device to your server's PHP_DDNS install:";
-        $out .= "\n  Name: " . $this->CONFIG['name'];
+
         $out .= "\n  UUID: " . $this->CONFIG['uuid'];
+        $out .= "\n  Name: " . $this->CONFIG['name'];
         $out .= "\n  IP:   " . $this->CONFIG['ip'];
         $out .= "\n  Key:  " . $this->CONFIG['key'] . "\n";
+
+        $out .= "\n  \$device = array(";
+        $out .= "\n      'uuid' => '" . $this->CONFIG['uuid'] . "',";
+        $out .= "\n      'name' => '" . $this->CONFIG['name'] . "',";
+        $out .= "\n      'ip' => '" . $this->CONFIG['ip'] . "',";
+        $out .= "\n      'key' => '" . $this->CONFIG['key'] . "'";
+        $out .= "\n  );\n";
         return $out;
     }
 

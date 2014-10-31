@@ -59,6 +59,8 @@ Do not consider this list complete, it is an estimate based on current developme
 
 ## To Do ##
 
+### Main ###
+
 The section numbers in this list should roughly equate to major version releases, once all sub-tasks are crossed out. The tasks are (hopefully) in order of importance, and (almost definitely) in order of when I'll do them.
 
 1. ~~Background Stuff~~
@@ -69,8 +71,8 @@ The section numbers in this list should roughly equate to major version releases
 2. Initial Release
   * ~~Refactor code to move from "machines" to "devices" terminology.~~
   * ~~Update to use namespacing.~~
-  * Implement adding devices.
-  * Implement removing devices.
+  * ~~Implement adding devices.~~
+  * ~~Implement removing devices.~~
   * ~~Write the `hook`.~~
   * ~~Write the `pinger`.~~
   * Write the server-side installer.
@@ -88,6 +90,15 @@ The section numbers in this list should roughly equate to major version releases
   * Write a wiki
   * Allow device name to be changed.
   * Translate `pinger` into languages besides PHP.
+
+### Plugins ###
+
+This is a rough list of the "official" plugins for __PHP_DDNS__ that I will be developing and maintaining alongside the core, in no meaningful order.
+
+1. "simple auth" (name TBC) - lets you password-protect the entry point for initiating connections to your devices.
+2. "admin portal" (name TBC) - provides a web interface for adding/removing devices, rather than programmatically.
+3. "Lockdown" - a system to easily deny access to parts of your site except from tracked devices.
+4. "Announce" - push notifications to one or more tracked devices.
 
 ## Credits ##
 
