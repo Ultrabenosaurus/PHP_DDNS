@@ -104,6 +104,8 @@ This is a rough list of the "official" plugins for __PHP_DDNS__ that I will be d
 
 * [Remonit](https://github.com/zefei/remonit) for giving me the inspiration for this.
 * [Crypt](https://github.com/Hunter-Dolan/Crypt) for giving me a simple two-way encryption system.
+* [Vagrant](https://www.vagrantup.com) for making it so easy to package and re-use environments.
+* [Laravel](http://laravel.com) for both homestead and their framework, which I plan to use for the portal.
 * [GitHub](https://github.com/) for just generally being awesome
 
 ## License ##
