@@ -236,4 +236,21 @@ class PHP_DDNS_Helper
             unset( $c );
         }
     }
+
+    /**
+     * Check if config file exists and either read it in or generate defaults.
+     *
+     * @return array The array of settings.
+     */
+    public static function initConfig()
+    {
+        if( file_exists( PHP_DDNS_ROOT . "assets/other/.conf" ) )
+        {
+            return json_decode( file_get_contents( PHP_DDNS_ROOT . "assets/other/.conf" ), true );
+        }
+        else
+        {
+            return \PHP_DDNS\Core\PHP_DDNS::getDefaults();
+        }
+    }
 }

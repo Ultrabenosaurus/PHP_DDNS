@@ -66,7 +66,9 @@ class PHP_DDNS_Pinger
 
         if( $this->checkResponseIntegrity( $response ) )
         {
-            $this->CONFIG[ 'key' ] = $response[ 'key' ];
+            $this->CONFIG[ 'key' ] = $response[ 'device' ][ 'key' ];
+            $this->CONFIG[ 'ip' ] = $response[ 'device' ][ 'ip_address' ];
+            $this->CONFIG[ 'name' ] = $response[ 'device' ][ 'name' ];
             $this->setConfig();
         }
         else

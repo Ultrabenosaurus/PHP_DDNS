@@ -14,7 +14,7 @@ As yet I am unsure of where it should exist, or exactly what form it should take
 
 ## Usage ##
 
-Despite being unsure of where to classify its existence, I already have a basic outline of how it will work.
+Despite being unsure of where to classify its existence, I already have a basic outline of how it will work. I will likely use [Symfony's Event/EventDispatcher](http://symfony.com/doc/current/components/event_dispatcher/introduction.html) system as inspiration.
 
 ### Overview ###
 

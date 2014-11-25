@@ -215,7 +215,7 @@ class PHP_DDNS
      */
     private function findDeviceByUuid( $_uuid )
     {
-        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `uuid`=?", array( $_uuid ) );
+        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address`, `name` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `uuid`=?", array( $_uuid ) );
         $result = $this->DB->getSingle();
 
         return ( ( count( $result ) > 0 ) ? $result : false );
@@ -230,7 +230,7 @@ class PHP_DDNS
      */
     private function findDeviceByName( $_name )
     {
-        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `name`=?", array( $_name ) );
+        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address`, `name` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `name`=?", array( $_name ) );
         $result = $this->DB->getSingle();
 
         return ( ( count( $result ) > 0 ) ? $result : false );
@@ -245,7 +245,7 @@ class PHP_DDNS
      */
     private function findDeviceById( $_id )
     {
-        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `id`=?", array( $_id ) );
+        $this->DB->query( "SELECT `id`, `uuid`, `key`, `ip_address`, `name` FROM `" . $this->CONFIG[ 'database' ][ 'table' ] . "` WHERE `id`=?", array( $_id ) );
         $result = $this->DB->getSingle();
 
         return ( ( count( $result ) > 0 ) ? $result : false );
